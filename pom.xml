@@ -8,9 +8,22 @@
     <artifactId>tec_stack</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>elasticsearch-module</module>
-    </modules>
 
-
+    <properties>
+        <!-- Dependency versions -->
+        <activemq.version>5.14.3</activemq.version>
+        <antlr2.version>2.7.7</antlr2.version>
+        <appengine-sdk.version>1.9.48</appengine-sdk.version>
+        <artemis.version>1.5.2</artemis.version>
+        <aspectj.version>1.8.9</aspectj.version>
+        <assertj.version>2.6.0</assertj.version>
+        <atomikos.version>3.9.3</atomikos.version>
+        <bitronix.version>2.1.4</bitronix.version>
+        <caffeine.version>2.3.5</caffeine.version>
+        <cassandra-driver.version>3.1.3</cassandra-driver.version>
+        <classmate.version>1.3.3</classmate.version>
+        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <spring-data-releasetrain.version>Ingalls-RELEASE</spring-data-releasetrain.version>
+    </properties>
 </project>
