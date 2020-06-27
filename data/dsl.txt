@@ -1,0 +1,440 @@
+ #列出所有索引k
+ GET /_cat/indices?v
+
+ PUT /customer/_doc/1
+ {
+   "name": "John Doe"
+ }
+
+ PUT /bank/_bulk
+ {"index":{"_id":"1"}}
+ {"account_number":1,"balance":39225,"firstname":"Amber","lastname":"Duke","age":32,"gender":"M","address":"880 Holmes Lane","employer":"Pyrami","email":"amberduke@pyrami.com","city":"Brogan","state":"IL"}
+ {"index":{"_id":"6"}}
+ {"account_number":6,"balance":5686,"firstname":"Hattie","lastname":"Bond","age":36,"gender":"M","address":"671 Bristol Street","employer":"Netagy","email":"hattiebond@netagy.com","city":"Dante","state":"TN"}
+ {"index":{"_id":"13"}}
+ {"account_number":13,"balance":32838,"firstname":"Nanette","lastname":"Bates","age":28,"gender":"F","address":"789 Madison Street","employer":"Quility","email":"nanettebates@quility.com","city":"Nogal","state":"VA"}
+ {"index":{"_id":"18"}}
+ {"account_number":18,"balance":4180,"firstname":"Dale","lastname":"Adams","age":33,"gender":"M","address":"467 Hutchinson Court","employer":"Boink","email":"daleadams@boink.com","city":"Orick","state":"MD"}
+ {"index":{"_id":"20"}}
+ {"account_number":20,"balance":16418,"firstname":"Elinor","lastname":"Ratliff","age":36,"gender":"M","address":"282 Kings Place","employer":"Scentric","email":"elinorratliff@scentric.com","city":"Ribera","state":"WA"}
+ {"index":{"_id":"25"}}
+ {"account_number":25,"balance":40540,"firstname":"Virginia","lastname":"Ayala","age":39,"gender":"F","address":"171 Putnam Avenue","employer":"Filodyne","email":"virginiaayala@filodyne.com","city":"Nicholson","state":"PA"}
+ {"index":{"_id":"32"}}
+ {"account_number":32,"balance":48086,"firstname":"Dillard","lastname":"Mcpherson","age":34,"gender":"F","address":"702 Quentin Street","employer":"Quailcom","email":"dillardmcpherson@quailcom.com","city":"Veguita","state":"IN"}
+ {"index":{"_id":"37"}}
+ {"account_number":37,"balance":18612,"firstname":"Mcgee","lastname":"Mooney","age":39,"gender":"M","address":"826 Fillmore Place","employer":"Reversus","email":"mcgeemooney@reversus.com","city":"Tooleville","state":"OK"}
+ {"index":{"_id":"44"}}
+ {"account_number":44,"balance":34487,"firstname":"Aurelia","lastname":"Harding","age":37,"gender":"M","address":"502 Baycliff Terrace","employer":"Orbalix","email":"aureliaharding@orbalix.com","city":"Yardville","state":"DE"}
+ {"index":{"_id":"49"}}
+ {"account_number":49,"balance":29104,"firstname":"Fulton","lastname":"Holt","age":23,"gender":"F","address":"451 Humboldt Street","employer":"Anocha","email":"fultonholt@anocha.com","city":"Sunriver","state":"RI"}
+ {"index":{"_id":"51"}}
+ {"account_number":51,"balance":14097,"firstname":"Burton","lastname":"Meyers","age":31,"gender":"F","address":"334 River Street","employer":"Bezal","email":"burtonmeyers@bezal.com","city":"Jacksonburg","state":"MO"}
+ {"index":{"_id":"56"}}
+ {"account_number":56,"balance":14992,"firstname":"Josie","lastname":"Nelson","age":32,"gender":"M","address":"857 Tabor Court","employer":"Emtrac","email":"josienelson@emtrac.com","city":"Sunnyside","state":"UT"}
+ {"index":{"_id":"63"}}
+ {"account_number":63,"balance":6077,"firstname":"Hughes","lastname":"Owens","age":30,"gender":"F","address":"510 Sedgwick Street","employer":"Valpreal","email":"hughesowens@valpreal.com","city":"Guilford","state":"KS"}
+
+ #查询索引的mapping
+ GET /customer/_mapping?pretty
+
+ GET _search
+ {
+   "query": {
+     "match_all": {}
+   }
+ }
+
+
+ PUT /user_logs_000001/_bulk?refresh
+ {"index":{"_index" : "user_logs_000001", "_id" : "1"}}
+ { "@timestamp": "2020-12-06T11:04:05.000Z", "user": { "id": "vlb44hny" }, "message": "Login attempt failed" }
+ {"index":{"_index" : "user_logs_000001", "_id" : "2"}}
+ { "@timestamp": "2020-12-07T11:06:07.000Z", "user": { "id": "8a4f500d" }, "message": "Login successful" }
+ {"index":{"_index" : "user_logs_000001", "_id" : "3"}}
+ { "@timestamp": "2020-12-07T11:07:08.000Z", "user": { "id": "l7gk7f82" }, "message": "Logout successful" }
+
+ GET /user_logs_000001/_search?q=user.id:8a4f500d&pretty
+
+ GET /user_logs_000001/_search
+ {
+   "query": {
+     "match": {
+       "message": "login successful"
+     }
+   }
+ }
+
+ GET /user_logs*/_search
+ {
+   "query": {
+     "match": {
+       "message": "login successful"
+     }
+   }
+ }
+
+ GET /_search
+ {
+   "query": {
+     "match": {
+       "message": "login successful"
+     }
+   }
+ }
+
+ #检索所有索引的数据
+ GET /*/_search
+ {
+     "query" : {
+         "match" : { "message" : "failed" }
+     }
+ }
+
+ #分页
+ GET /_search
+ {
+   "from": 0,
+   "size": 2,
+   "query": {
+     "match": {
+       "message": "login successful"
+     }
+   }
+ }
+
+ #不返回source
+ GET /_search
+ {
+   "_source": false,
+   "query": {
+     "term": {
+       "user.id": "8a4f500d"
+     }
+   }
+ }
+
+ #只返回obj对象的属性
+ GET /_search
+ {
+   "_source": "obj.*",
+   "query": {
+     "term": {
+       "user.id": "8a4f500d"
+     }
+   }
+ }
+
+ GET /_search
+ {
+   "_source": [ "obj1.*", "obj2.*" ],
+   "query": {
+     "term": {
+       "user.id": "8a4f500d"
+     }
+   }
+ }
+
+ GET /_search
+ {
+   "_source": {
+     "includes": [ "obj1.*", "obj2.*" ],
+     "excludes": [ "*.description" ]
+   },
+   "query": {
+     "term": {
+       "user.id": "8a4f500d"
+     }
+   }
+ }
+
+ GET /bank/_search
+ {
+   "query": { "match_all": {} },
+   "sort": [
+     { "age": "desc" }
+   ]
+ }
+
+ #不分词搜索，全匹配
+ GET /bank/_search
+ {
+   "query": {
+     "match_phrase": {
+       "address": "171 Putnam Avenue"
+     }
+   }
+ }
+
+ #bool 组合查询
+ GET /bank/_search?pretty
+ {
+
+   "query": {
+
+     "bool": {
+
+       "must": [
+
+         { "match": { "age": "40" } }
+
+       ],
+
+       "must_not": [
+
+         { "match": { "state": "ID" } }
+
+       ]
+
+     }
+
+   }
+
+ }
+
+ GET /bank/_search?pretty
+ {
+
+   "query": {
+
+     "bool": {
+
+       "must": { "match_all": {} },
+
+       "filter": {
+
+         "range": {
+
+           "balance": {
+
+             "gte": 20000,
+
+             "lte": 30000
+
+           }
+
+         }
+
+       }
+
+     }
+
+   }
+
+ }
+
+ GET /bank/_search
+ {
+   "size": 0,
+   "aggs": {
+     "group_by_state": {
+       "terms": {
+         "field": "state.keyword"
+       }
+     }
+   }
+ }
+
+ GET /bank/_search
+ {
+   "size": 0,
+   "aggs": {
+     "group_by_state": {
+       "terms": {
+         "field": "state.keyword",
+         "order": {
+           "average_balance": "desc"
+         }
+       },
+       "aggs": {
+         "average_balance": {
+           "avg": {
+             "field": "balance"
+           }
+         }
+       }
+     }
+   }
+ }
+
+ GET /bank/_search
+ {
+   "query": {
+     "match_all": {}
+   }
+ }
+
+ GET /bank/_search
+ {
+   "query": {
+     "match_all": {}
+   }
+ }
+
+ GET /bank/_search
+ {
+   "query": {
+     "multi_match": {
+       "query": "BROGAN",
+       "fields": ["city^3","email"]
+     }
+   }
+ }
+
+ PUT /testindex
+ {
+     "settings" : {
+         "number_of_shards" : 1
+     },
+     "mappings" : {
+         "properties" : {
+             "address" : { "type" : "text" }
+         }
+     }
+ }
+
+ POST /testindex/_doc
+ {
+   "address":"lujunfa is a goodboy"
+ }
+
+ GET /testindex/_search
+ {
+   "query": {
+     "match_all": {
+
+     }
+   }
+ }
+
+ GET /testindex/_search
+ {
+   "query": {
+     "query_string": {
+       "default_field": "address",
+       "query": "lujunfa1 or goodboy"
+     }
+   }
+ }
+
+ GET /testindex/_search
+ {
+    "query": {
+     "intervals" : {
+       "address" : {
+         "all_of" : {
+           "ordered" : true,
+           "intervals" : [
+             {
+               "match" : {
+                 "query" : "lujunfa",
+                 "max_gaps" : 0,
+                 "ordered" : true
+               }
+             },
+             {
+               "any_of" : {
+                 "intervals" : [
+                   { "match" : { "query" : "is" } },
+                   { "match" : { "query" : "goodboy" } }
+                 ]
+               }
+             }
+           ]
+         }
+       }
+     }
+   }
+ }
+
+ GET _sql
+ {
+   "query": """
+   SELECT * FROM "bank" where age=33
+   """
+
+ }
+
+
+ PUT /my_locations
+ {
+     "mappings": {
+         "properties": {
+             "pin": {
+                 "properties": {
+                     "location": {
+                         "type": "geo_point"
+                     }
+                 }
+             }
+         }
+     }
+ }
+
+ PUT /my_locations/_doc/1
+ {
+     "pin" : {
+         "location" : {
+             "lat" : 40.12,
+             "lon" : -71.34
+         }
+     }
+ }
+
+ GET my_locations/_search
+ {
+     "query": {
+         "geo_bounding_box" : {
+             "pin.location" : {
+                 "top_left" : "dr",
+                 "bottom_right" : "dr"
+             }
+         }
+     }
+ }
+
+ DELETE /my_locations
+
+ PUT /my_locations
+ {
+     "mappings": {
+         "properties": {
+             "pin": {
+                 "properties": {
+                     "location": {
+                         "type": "geo_point"
+                     }
+                 }
+             }
+         }
+     }
+ }
+
+ PUT /my_locations/_doc/1
+ {
+     "pin" : {
+         "location" : {
+             "lat" : 40.12,
+             "lon" : -71.34
+         }
+     }
+ }
+
+ GET /my_locations/_search
+ {
+     "query": {
+         "bool" : {
+             "must" : {
+                 "match_all" : {}
+             },
+             "filter" : {
+                 "geo_distance" : {
+                     "distance" : "10km",
+                     "pin.location" : {
+                         "lat" : 40,
+                         "lon" : -70
+                     }
+                 }
+             }
+         }
+     }
+ }

@@ -6,7 +6,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="elasticsearch-module" />
+        <module name="electronic-sign" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8" />
@@ -14,6 +14,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="elasticsearch-module" options="-parameters" />
+      <module name="electronic-sign" options="" />
     </option>
   </component>
 </project>

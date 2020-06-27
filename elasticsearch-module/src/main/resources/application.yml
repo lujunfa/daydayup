@@ -1,1 +1,3 @@
 
+jdbc:
+    es: //http://server:3456/?timezone=UTC&page.size=250
