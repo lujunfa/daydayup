@@ -153,6 +153,7 @@ public class SignPdf {
             float signImageHeight = image.getHeight();
  
             float signImageHeightSocale = 85 / signImageWidth * signImageHeight;
+            //找到pdf文件的关键字，然后盖上负责人的签名照品
             if (keyWords != null && !keyWords.isEmpty()) {
                 KeyWordInfo keyWordInfo = getKeyWordLocation(numberOfPages,
                         keyWords, reader);
