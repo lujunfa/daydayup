@@ -1,0 +1,18 @@
+logging:
+  config: classpath:logback-pro.xml
+
+spring:
+  application:
+    name: iki-pki-registration
+  main:
+    allow-bean-definition-overriding: true
+
+app:
+  id: ${spring.application.name}
+apollo:
+  accesskey:
+    secret: 5d0ce61bb59b44c08791d0fbba9aabd8
+  meta: http://iki.apollo.config.posloan
+  bootstrap:
+    enabled: true
+    namespaces: application.yml,iki-pki.baseconfig

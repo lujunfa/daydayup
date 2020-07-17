@@ -92,6 +92,7 @@ public class Pkcs {
     }
  
     /**
+     * 生成证书，证书包括期限
      * @param issuerStr
      * @param subjectStr
      * @param keyPair

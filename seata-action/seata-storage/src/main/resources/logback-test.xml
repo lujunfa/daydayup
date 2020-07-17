@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+
+    <property name="env" value="${spring.profiles.active}"/>
+    <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
+    <property name="log.path" value="${HOME:-${USERPROFILE}}/data/logs/ikipki/${spring.application.name}"/>
+    <property name="stdout_pattern"
+              value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5p [%c] [%F:%L] - %X{uid} - %X{requestId} - %msg%n"/>
+    <property name="request_pattern" value="%d{MMdd HH:mm:ss.SSS} [${spring.application.name}] %msg%n"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${stdout_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/logstash.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/logstash.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${stdout_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="LOGSTASH_FILE"/>
+    </appender>
+
+    <appender name="REQUEST_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/request.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/request.%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${request_pattern}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="REQUEST_ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold>0</discardingThreshold>
+        <queueSize>256</queueSize>
+        <includeCallerData>true</includeCallerData>
+        <appender-ref ref="REQUEST_FILE"/>
+    </appender>
+
+
+    <logger name="request" level="debug" additivity="false">
+        <appender-ref ref="REQUEST_ASYNC"/>
+    </logger>
+    <root level="info">
+        <appender-ref ref="LOGSTASH_ASYNC"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

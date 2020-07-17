@@ -1,0 +1,26 @@
+logging:
+  config: classpath:logback-dev.xml
+
+spring:
+  application:
+    name: seata-storage
+  main:
+    allow-bean-definition-overriding: true
+
+app:
+  id: ${spring.application.name}
+apollo:
+  meta: http://192.168.2.242:8080
+  bootstrap:
+    enabled: true
+    namespaces: application.yml
+
+xxl:
+  job:
+    enable: true
+    admin:
+      addresses: http://192.168.1.8:9981/xxl-job-admin
+      appname: ${spring.application.name}
+      port: 9999
+      logpath: data/logs/${spring.application.name}/xxljob
+      logretentiondays: 30
