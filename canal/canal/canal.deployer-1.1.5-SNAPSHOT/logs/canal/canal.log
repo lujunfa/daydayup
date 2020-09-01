@@ -1,0 +1,19 @@
+2020-09-01 09:37:36.721 [main] INFO  com.alibaba.otter.canal.deployer.CanalLauncher - ## set default uncaught exception handler
+2020-09-01 09:37:36.785 [main] INFO  com.alibaba.otter.canal.deployer.CanalLauncher - ## load canal configurations
+2020-09-01 09:37:36.807 [main] INFO  com.alibaba.otter.canal.deployer.CanalStarter - ## start the canal server.
+2020-09-01 09:37:37.037 [main] INFO  com.alibaba.otter.canal.deployer.CanalController - ## start the canal server[10.0.192.78(10.0.192.78):11111]
+2020-09-01 09:37:38.702 [main] INFO  com.alibaba.otter.canal.deployer.CanalStarter - ## the canal server is running now ......
+2020-09-01 09:43:59.417 [New I/O server worker #1-1] ERROR c.a.otter.canal.server.netty.handler.SessionHandler - something goes wrong with channel:[id: 0x2bcf7487, /127.0.0.1:56370 => /127.0.0.1:11111], exception=java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at sun.nio.ch.SocketDispatcher.read(Unknown Source)
+	at sun.nio.ch.IOUtil.readIntoNativeBuffer(Unknown Source)
+	at sun.nio.ch.IOUtil.read(Unknown Source)
+	at sun.nio.ch.SocketChannelImpl.read(Unknown Source)
+	at org.jboss.netty.channel.socket.nio.NioWorker.read(NioWorker.java:322)
+	at org.jboss.netty.channel.socket.nio.NioWorker.processSelectedKeys(NioWorker.java:281)
+	at org.jboss.netty.channel.socket.nio.NioWorker.run(NioWorker.java:201)
+	at org.jboss.netty.util.internal.IoWorkerRunnable.run(IoWorkerRunnable.java:46)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+
