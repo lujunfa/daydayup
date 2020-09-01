@@ -18,7 +18,7 @@ public class CanalTest {
  
     public static void main(String[] args) throws Exception {
          
-        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress("127.0.0.1", 9099), "example", "", "");
+        CanalConnector connector = CanalConnectors.newSingleConnector(new InetSocketAddress("127.0.0.1", 11111), "example", "", "");
         connector.connect();
         connector.subscribe(".*\\..*");
         connector.rollback();
