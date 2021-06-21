@@ -28,4 +28,6 @@
 
 ### Spring bean生命周期图
 
-![Spring1.png](.\img\spring\spring流程图.jpg)s
+![Spring1.png](.\img\spring\spring流程图.jpg)
+
+![Spring1.png](.\img\spring\spring7.jpg)
